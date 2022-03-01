@@ -1,6 +1,6 @@
 import numpy as np
 from typing import IO
-from numpy import genfromtxt
+from numpy import delete, genfromtxt
 import click
 from pathlib import Path
 
@@ -15,7 +15,14 @@ def main(file: IO,  colnum: int, delimiter: str, output_dir: str) -> None:
         output_path.mkdir(parents=True, exist_ok=True)
 
 
-    data = genfromtxt(file, delimiter=delimiter, dtype=str, replace_space='_')
+    data = genfromtxt(
+        file,
+        delimiter=delimiter,
+        dtype=str,
+        replace_space='_',
+        deletechars='',
+        comments='comment:'
+    )
     uniq_items = np.unique(data[:, colnum])
 
     for item in uniq_items:
